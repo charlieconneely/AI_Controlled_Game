@@ -1,0 +1,8 @@
+package ie.gmit.sw.ai;
+
+public class Run implements Command {
+	@Override
+	public void execute() {
+		//System.out.println("Enemy action executing");		
+	}
+}

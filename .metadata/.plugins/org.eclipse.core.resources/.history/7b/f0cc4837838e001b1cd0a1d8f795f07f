@@ -1,0 +1,8 @@
+package ie.gmit.sw.ai;
+
+public class Nothing implements Command {
+	@Override
+	public void execute() {
+	
+	}
+}

@@ -1,0 +1,29 @@
+package ie.gmit.sw.ai;
+
+public class DepthLimitedSearch {
+	
+	private GameModel model;
+	private char enemyID;
+	private static int limit = 10;
+	
+	public DepthLimitedSearch(GameModel model, char enemyID) {
+		this.model = model;
+		this.enemyID = enemyID;
+	}
+	
+	public int[] search(int temp_row, int temp_col, int[] dir, int depth) {				
+		if (depth > limit) {
+			return dir;
+		} 
+		else if (model.get(temp_row, temp_col) == '1') {
+			System.out.println("Near player");
+			int[] newDirs = {(temp_row * -1), (temp_col * -1)};
+			return newDirs;
+		} 
+		else {
+			System.out.println(model.get(temp_col, temp_row));
+			int[] newDirs = search(temp_row + (dir[0]), temp_col + (dir[1]), dir, depth + 1);
+			return newDirs;
+		}	
+	}
+}

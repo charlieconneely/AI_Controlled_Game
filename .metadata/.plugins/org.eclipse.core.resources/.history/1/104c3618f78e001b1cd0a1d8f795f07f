@@ -1,0 +1,50 @@
+package ie.gmit.sw.ai;
+
+public class DepthLimitedSearch {
+	
+	private GameModel model;
+	private char enemyID;
+	private static int limit = 20;
+	
+	public DepthLimitedSearch(GameModel model, char enemyID) {
+		this.model = model;
+		this.enemyID = enemyID;
+	}
+	
+	// dir[] = {temp_row - row, temp_col - col} 
+	public void search(int row, int col, int[] dir, int depth) {				
+		if (depth > limit) {
+			System.out.println("Didn't see any player");
+			model.set(row, col, enemyID);
+		} 
+		else if (model.get(row, col) == '1') {
+			System.out.println("Near player");
+			// change depth and direction
+			dir[0] = dir[0] * -1;
+			dir[1] = dir[1] * -1;
+			depth = 0;
+		} 
+		else {
+			search(row + (dir[0]), col + (dir[1]), dir, depth + 1);
+		}	
+	}
+	
+	/*
+	   	if (depth > limit) {
+			System.out.println("Maximum Depth Reached. Failed to locate goal node.");
+			System.exit(0);
+		}
+		if (node.isGoalNode()) {
+			System.out.println("Reached goal node " + node.getNodeName());
+			System.exit(0);
+		}else{
+			if (!node.isVisited()) {
+				node.setVisited(true);
+				Node[] children = node.children();
+				for (int i = 0; i < children.length; i++) {
+					search(children[i], limit, depth + 1);
+				}
+			}
+		}
+	 */
+}
