@@ -1,0 +1,33 @@
+package ie.gmit.sw.ai;
+import java.util.concurrent.ThreadLocalRandom;
+public class RunAway implements Command {
+	private static ThreadLocalRandom rand = ThreadLocalRandom.current();
+	
+	private GameModel model;
+	private char enemyID;
+	private int row, col;
+	
+	public RunAway(GameModel model, char enemyID, int row, int col) {
+		this.model = model;
+		this.enemyID = enemyID;
+		this.row = row;
+		this.col = col;
+	}
+	
+	@Override
+	public void execute() {
+		int temp_row = row, temp_col = col;
+		if (rand.nextBoolean()) {
+    		temp_row += rand.nextBoolean() ? 1 : -1;
+    	}else {
+    		temp_col += rand.nextBoolean() ? 1 : -1;
+    	}
+		
+		if (model.isValidMove(row, col, temp_row, temp_col, enemyID)) {
+    		model.set(temp_row, temp_col, enemyID);
+    		model.set(row, col, '\u0020');
+    		row = temp_row;
+    		col = temp_col;
+		}
+	}
+}

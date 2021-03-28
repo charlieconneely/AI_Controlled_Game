@@ -95,9 +95,9 @@ public class GameModel {
 				 * Command. The constructor call below is only parameterised with a lambda expression. 
 				 */
 				if (enemyID == '3') {
-					tasks.add(new CharacterTask(this, enemyID, row, col, new RunAway(this)));
+					tasks.add(new CharacterTask(this, enemyID, row, col, new Chase(this)));
 				} else {
-					tasks.add(new CharacterTask(this, enemyID, row, col, new RunAway(this)));
+					tasks.add(new CharacterTask(this, enemyID, row, col, new RunAway()));
 				}
 				counter++;
 			}

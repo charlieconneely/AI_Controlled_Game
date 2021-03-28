@@ -2,3 +2,11 @@
 1616797489065	Rename type 'EnemyAction'
 1616797499720	Rename type 'Run'
 1616797978438	Delete element
+1616869320719	Rename local variable 'matrix'
+1616869622749	Rename local variable 'sx'
+1616869630603	Rename local variable 'sy'
+1616869639153	Rename local variable 'dx'
+1616869644683	Rename local variable 'dy'
+1616870268231	Rename type 'Cell'
+1616933943036	Rename type 'RunAway'
+1616955513137	Delete element

@@ -19,7 +19,7 @@ public class GameWindow extends Application{
 	private GameModel model;
 	private int currentRow;
 	private int currentCol;
-
+	
 	@Override
     public void start(Stage stage) throws Exception {
 		model = new GameModel(DEFAULT_SIZE); //Create a model

@@ -1,0 +1,15 @@
+package ie.gmit.sw.ai;
+
+public class Chase implements Command {
+	
+	private GameModel model;
+	
+	public Chase(GameModel model) {
+		this.model = model;
+	}
+		
+	@Override
+	public void execute(int row, int col) {
+		
+	}
+}

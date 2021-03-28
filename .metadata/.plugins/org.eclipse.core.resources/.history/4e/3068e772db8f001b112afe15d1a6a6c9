@@ -1,0 +1,19 @@
+package ie.gmit.sw.ai;
+
+public class Chase implements Command {
+	
+	private GameModel model;
+	private char enemyID;
+	private BFS bfs;
+	
+	public Chase(GameModel model, char enemyID) {
+		this.model = model;
+		this.enemyID = enemyID;
+		bfs = new BFS(model);
+	}
+		
+	@Override
+	public void execute(int r, int c) {		
+		
+	}
+}

@@ -1,0 +1,29 @@
+package ie.gmit.sw.ai;
+
+public class DepthLimitedSearch {
+	
+	private GameModel model;
+	private static int limit = 10;
+	private char[][] modelGrid;
+	
+	public DepthLimitedSearch(GameModel model) {
+		this.model = model;
+		this.modelGrid = model.getModel();
+	}
+	
+	public void search(int row, int col, int depth) {				
+		if (depth > limit) {
+			return;
+		} 
+		else if (model.get(row, col) == '1') {
+			System.out.println("Near player");
+			return;
+		} 
+		else {
+			for () {
+				
+			}
+			return ;
+		}	
+	}
+}
