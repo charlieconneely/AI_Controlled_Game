@@ -21,112 +21,153 @@ import javafx.concurrent.Task;
 public class GameModel {
 	private static final int MAX_CHARACTERS = 10;
 	private static final int NO_OF_CHARACTERS = 5;
+	private static final char RED_GHOST_ID = '\u0032';
+	private static final char PINK_GHOST_ID = '\u0033';
+	private static final char BLUE_GHOST_ID = '\u0034';
+	private static final char RED_GREEN_GHOST_ID = '\u0035';
+	private static final char ORANGE_GHOST_ID = '\u0036'; 
 	private ThreadLocalRandom rand = ThreadLocalRandom.current();
 	private char[][] model;
-	
+	private int ghostCount = 0;
+
 	private final ExecutorService exec = Executors.newFixedThreadPool(MAX_CHARACTERS, e -> {
-        Thread t = new Thread(e);
-        t.setDaemon(true);
-        return t ;
-    });
-	
-	public GameModel(int dimension){
+		Thread t = new Thread(e);
+		t.setDaemon(true);
+		return t;
+	});
+
+	public GameModel(int dimension) {
 		model = new char[dimension][dimension];
 		init();
 		carve();
 		addGameCharacters();
 	}
-	
+
 	public void tearDown() {
 		exec.shutdownNow();
 	}
-	
+
 	/*
-	 * Initialises the game model by creating an n x m array filled with hedge  
+	 * Initialises the game model by creating an n x m array filled with hedge
 	 */
-	private void init(){
-		for (int row = 0; row < model.length; row++){
-			for (int col = 0; col < model[row].length; col++){
-				model[row][col] = '\u0030'; //\u0030 = 0x30 = 0 (base 10) = A hedge
+	private void init() {
+		for (int row = 0; row < model.length; row++) {
+			for (int col = 0; col < model[row].length; col++) {
+				model[row][col] = '\u0030'; // \u0030 = 0x30 = 0 (base 10) = A hedge
 			}
 		}
 	}
-	
+
 	/*
 	 * Carve paths through the hedge to create passages.
 	 */
-	public void carve(){
-		for (int row = 0; row < model.length; row++){
-			for (int col = 0; col < model[row].length - 1; col++){
+	public void carve() {
+		for (int row = 0; row < model.length; row++) {
+			for (int col = 0; col < model[row].length - 1; col++) {
 				if (row == 0) {
 					model[row][col + 1] = '\u0020';
-				}else if (col == model.length - 1) {
+				} else if (col == model.length - 1) {
 					model[row - 1][col] = '\u0020';
-				}else if (rand.nextBoolean()) {
+				} else if (rand.nextBoolean()) {
 					model[row][col + 1] = '\u0020';
-				}else {
+				} else {
 					model[row - 1][col] = '\u0020';
 				}
 			}
 		}
 	}
-	
+
 	private void addGameCharacters() {
 		Collection<Task<Void>> tasks = new ArrayList<>();
-		addGameCharacter(tasks, '\u0032', '0', MAX_CHARACTERS / NO_OF_CHARACTERS); //2 is a Red Enemy, 0 is a hedge
-		addGameCharacter(tasks, '\u0033', '0', MAX_CHARACTERS / NO_OF_CHARACTERS); //3 is a Pink Enemy, 0 is a hedge
-		addGameCharacter(tasks, '\u0034', '0', MAX_CHARACTERS / NO_OF_CHARACTERS); //4 is a Blue Enemy, 0 is a hedge
-		addGameCharacter(tasks, '\u0035', '0', MAX_CHARACTERS / NO_OF_CHARACTERS); //5 is a Red Green Enemy, 0 is a hedge
-		addGameCharacter(tasks, '\u0036', '0', MAX_CHARACTERS / NO_OF_CHARACTERS); //6 is a Orange Enemy, 0 is a hedge
+		addGameCharacter(tasks, RED_GHOST_ID, '0', MAX_CHARACTERS / NO_OF_CHARACTERS); 
+		addGameCharacter(tasks, PINK_GHOST_ID, '0', MAX_CHARACTERS / NO_OF_CHARACTERS); 
+		addGameCharacter(tasks, BLUE_GHOST_ID, '0', MAX_CHARACTERS / NO_OF_CHARACTERS); 
+		addGameCharacter(tasks, RED_GREEN_GHOST_ID, '0', MAX_CHARACTERS / NO_OF_CHARACTERS); 
+		addGameCharacter(tasks, ORANGE_GHOST_ID, '0', MAX_CHARACTERS / NO_OF_CHARACTERS); 
 		tasks.forEach(exec::execute);
 	}
-	
-	private void addGameCharacter(Collection<Task<Void>> tasks, char enemyID, char replace, int number){
+
+	private void addGameCharacter(Collection<Task<Void>> tasks, char enemyID, char replace, int number) {
 		int counter = 0;
-		while (counter < number){
+		while (counter < number) {
 			int row = rand.nextInt(model.length);
 			int col = rand.nextInt(model[0].length);
-			
-			if (model[row][col] == replace){
-				model[row][col] = enemyID;
 
-				/*
-				 * IMPORTANT! Change the following to parameterise your CharacterTask with an instance of
-				 * Command. The constructor call below is only parameterised with a lambda expression. 
-				 */
-				if (enemyID == '3') {
+			if (model[row][col] == replace) {
+				model[row][col] = enemyID;
+				switch (enemyID) {
+				case RED_GHOST_ID:
+				case PINK_GHOST_ID:
+				case BLUE_GHOST_ID:
+				case ORANGE_GHOST_ID:
 					tasks.add(new CharacterTask(this, new Scavenger(this, enemyID, row, col)));
-				} else if (enemyID == '5') {
+					ghostCount++;
+					break;
+				case RED_GREEN_GHOST_ID:
 					tasks.add(new CharacterTask(this, new Hunter(this, enemyID, row, col)));
+					break;
 				}
 				counter++;
 			}
 		}
 	}
-	
-	public boolean isValidMove(int fromRow, int fromCol, int toRow, int toCol, char character){
-		if (toRow <= this.size() - 1 && toCol <= this.size() - 1 && this.get(toRow, toCol) == ' '){
+
+	public boolean isValidMove(int fromRow, int fromCol, int toRow, int toCol, char character) {
+		if (toRow >= 0 && toCol >= 0 && toRow <= this.size() - 1 && toCol <= this.size() - 1 && this.get(toRow, toCol) == ' ') {
 			this.set(fromRow, fromCol, '\u0020');
 			this.set(toRow, toCol, character);
 			return true;
-		}else{
+		} else {
 			return false; // Can't move
 		}
 	}
 	
-	public char[][] getModel(){
+	public boolean isTouchingCharacter(char id, int r, int c) {
+		
+		if (r - 1 <= this.size() - 1 && c <= this.size() - 1) {
+			if ((r - 1) > 0) {
+				if (this.get(r - 1, c) == id) return true;
+			}
+		}
+		
+		if (r + 1 <= this.size() - 1 && c <= this.size() - 1) { 
+			if (this.get(r + 1, c) == id) return true;
+		}
+		
+		if (r <= this.size() - 1 && c - 1 <= this.size() - 1) {
+			if ((c - 1) > 0) { 
+				if (this.get(r, c - 1) == id) return true;
+			}
+		}
+		
+		if (r <= this.size() - 1 && c + 1 <= this.size() - 1) {
+			if (this.get(r, c + 1) == id) return true;
+		}
+		
+		return false;
+	}
+		
+	public void decrementGhostCount() {
+		if (ghostCount > 0) ghostCount--;
+	}
+		
+	public int getGhostCount() {
+		return ghostCount;
+	}
+
+	public char[][] getModel() {
 		return this.model;
 	}
-	
-	public char get(int row, int col){
+
+	public char get(int row, int col) {
 		return this.model[row][col];
 	}
-	
-	public void set(int row, int col, char c){
+
+	public void set(int row, int col, char c) {
 		this.model[row][col] = c;
 	}
-	
-	public int size(){
+
+	public int size() {
 		return this.model.length;
 	}
 }

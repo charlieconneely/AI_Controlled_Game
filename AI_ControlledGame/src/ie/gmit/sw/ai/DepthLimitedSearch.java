@@ -11,15 +11,14 @@ public class DepthLimitedSearch {
 	public int search(int row, int col, int depth) {
 		for (int i = (row - depth); i <= (row + depth); i++) {
 			for (int j = (col - depth); j <= (col + depth); j++) {
-				if (i <= model.size() - 1 && j <= model.size() - 1) {
-					// if player
-					if (model.get(i, j) == '1') {
-						return 1;
-					} 
-					// if red green 
-					else if (model.get(i, j) == '5') {
-						return 5;
-					}
+				if (i > model.size() - 1 || j > model.size() - 1 || i < 0 || j < 0) continue;
+				// if player
+				if (model.get(i, j) == '1') {
+					return 1;
+				} 
+				// if red green 
+				else if (model.get(i, j) == '5') {
+					return 5;
 				}
 			}
 		}	

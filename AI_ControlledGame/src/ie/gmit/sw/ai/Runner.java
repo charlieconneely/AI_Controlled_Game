@@ -19,13 +19,10 @@ public class Runner {
 		 * CLASSPATH). 
 		 */
 		
-		 //Add long-running initialisation instructions here.
+		// train neural network
 		NeuralNetwork nn = NeuralNetwork.getInstance();
 		nn.trainNeuralNetwork();
-		
-		// load in fuzzy logic stuff 
-		// Singletons? 
-		
+				
 		/*
 		 * Launch the JavaFX UI only when all the long-running AI 
 		 * configuration tasks have been completed. Use the arrow 

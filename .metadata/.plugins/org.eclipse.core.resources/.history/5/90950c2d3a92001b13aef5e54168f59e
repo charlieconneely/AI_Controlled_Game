@@ -1,0 +1,27 @@
+package ie.gmit.sw.ai;
+
+public class ActionProvider {
+
+	private ScavengerAction scavenge;
+	private NeuralNetwork nn = NeuralNetwork.getInstance();
+
+	public ActionProvider(GameModel model) {
+		scavenge = new Scavenge(model);
+	}
+	
+	public ScavengerAction getAction(int nearCharacter, double strength, int ghostCount) {
+		if (nearCharacter == 0)
+			return scavenge;
+		
+		int s = (int) Math.floor(strength);
+		System.out.println("rounded down: " + s);
+		// pass state of game character to nn to determine action
+		double[] nnInput = {(double) nearCharacter, strength, (double) ghostCount};
+		int action = nn.classifyAction(nnInput);
+		
+		System.out.println("Action from nn: " + action);
+
+		return scavenge;
+	}
+		
+}

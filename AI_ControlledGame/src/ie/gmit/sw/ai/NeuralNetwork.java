@@ -18,6 +18,7 @@ public class NeuralNetwork {
 	
 	private NeuralNetwork() {}
 	
+	@SuppressWarnings("exports")
 	public BasicNetwork createNeuralNetwork(int inputNodes, int outputNodes) {	
 		BasicNetwork bn = new BasicNetwork();
 		bn.addLayer(new BasicLayer(null, true, inputNodes));
@@ -60,7 +61,7 @@ public class NeuralNetwork {
 			
 	public int classifyAction(double[] input) {
 		MLData data = new BasicMLData(input);
-		return (int) network.classify(data);
+		return ((int) network.classify(data) + 1);
 	}
 	
 	private void testNetwork(MLDataSet trainingSet) {

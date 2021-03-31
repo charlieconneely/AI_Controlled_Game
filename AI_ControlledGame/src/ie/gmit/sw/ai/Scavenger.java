@@ -18,25 +18,26 @@ public class Scavenger implements Command {
 		this.row = row;
 		this.col = col;
 		dls = new DepthLimitedSearch(model);
-		actionProvider = new ActionProvider(model);
+		actionProvider = new ActionProvider(model, enemyID);
 	}
 
 	@Override
 	public boolean execute() {
-		
+			
 		// if touching player or hunter - die
-		if (isTouchingPlayer('1') || isTouchingPlayer('5')) {
+		if (model.isTouchingCharacter('1', row, col) || model.isTouchingCharacter('5', row, col)) {
+			model.decrementGhostCount();
 			model.set(row, col, '\u0020');
 			return false;
 		}
 		
 		int nearCharacter = dls.search(row, col, 5);
-		
+
 		//Randomly pick a direction up, down, left or right
 		int temp_row = row, temp_col = col;
 		if (rand.nextBoolean()) {
     		temp_row += rand.nextBoolean() ? 1 : -1;
-    	}else {
+    	} else {
     		temp_col += rand.nextBoolean() ? 1 : -1;
     	}
 		
@@ -47,20 +48,10 @@ public class Scavenger implements Command {
     		col = temp_col;
     		return true;
 		} 
-					
-		// call to nn here 
-		ScavengerAction action = actionProvider.getAction(nearCharacter, strength);
-		if (strength < 5) strength += action.act(temp_row, temp_col);
-		System.out.println(strength);
+							
+		ScavengerAction action = actionProvider.getAction(nearCharacter, strength, model.getGhostCount());
+		double strengthGain = action.act(temp_row, temp_col);
+		if (strength < 5) strength += strengthGain;
 		return true;
-	}
-		
-	// check if player or hunter is in any position surrounding character
-	private boolean isTouchingPlayer(char c) {
-		if (model.get(row - 1, col) == c || model.get(row + 1, col) == c
-			|| model.get(row, col - 1) == c || model.get(row, col + 1) == c) {
-			return true;
-		}
-		return false;
-	}
+	}	
 }
