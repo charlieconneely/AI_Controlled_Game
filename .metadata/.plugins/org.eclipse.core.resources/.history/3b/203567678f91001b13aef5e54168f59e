@@ -1,0 +1,5 @@
+package ie.gmit.sw.ai.nn;
+
+public interface PathFinder {
+	public Path findPath(char enemyID, int sx, int sy, int tx, int ty);
+}

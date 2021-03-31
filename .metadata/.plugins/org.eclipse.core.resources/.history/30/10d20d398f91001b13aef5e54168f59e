@@ -1,0 +1,7 @@
+package ie.gmit.sw.ai.nn;
+
+import java.util.ArrayList;
+
+public class AStarPathFinder {
+	private ArrayList<String> closed = new ArrayList<String>();
+}

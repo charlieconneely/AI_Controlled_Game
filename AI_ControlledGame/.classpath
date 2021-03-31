@@ -6,11 +6,6 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/charl/Downloads/jFuzzyLogic.jar">
-		<attributes>
-			<attribute name="module" value="true"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="lib" path="C:/Program Files/Java/openjfx-11.0.2_windows-x64_bin-sdk/javafx-sdk-11.0.2/lib/javafx.base.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
@@ -22,6 +17,11 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="C:/Program Files/Java/openjfx-11.0.2_windows-x64_bin-sdk/javafx-sdk-11.0.2/lib/javafx.graphics.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/charl/Downloads/encog-core-3.4.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>

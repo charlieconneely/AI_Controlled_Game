@@ -1,0 +1,30 @@
+package ie.gmit.sw.ai;
+
+public class Scavenger implements Command {
+
+	private GameModel model;
+	private DepthLimitedSearch dls;
+
+	public Scavenger(GameModel model, CharacterTask character) {
+		this.model = model;
+		dls = new DepthLimitedSearch(model);
+	}
+
+	@Override
+	public void execute(int row, int col) {
+		int nearCharacter = dls.search(row, col, 5);
+		if (nearCharacter == 1) {
+			System.out.println("Near player");
+		} else if (nearCharacter == 5) {
+			System.out.println("Near evil ghost");
+		}
+		
+		scavenge(row, col);
+	}
+	
+	private void scavenge(int r, int c) {
+		if (model.get(r, c) == '0') {
+			model.set(r, c, '\u0020');
+		}
+	}
+}

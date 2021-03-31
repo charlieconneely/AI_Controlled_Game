@@ -1,0 +1,21 @@
+package ie.gmit.sw.ai.nn;
+
+import ie.gmit.sw.ai.GameModel;
+import ie.gmit.sw.ai.Scavenge;
+import ie.gmit.sw.ai.ScavengerAction;
+
+public class ActionProvider {
+	
+	private ScavengerAction scavenge;
+	
+	public ActionProvider(GameModel model) {
+		scavenge = new Scavenge(model);
+	}
+	
+	public ScavengerAction getAction(int nearCharacter, double strength) {
+		if (nearCharacter == 0) return scavenge;
+		
+		return scavenge;
+	}
+
+}

@@ -1,0 +1,65 @@
+package ie.gmit.sw.ai.nn;
+
+import org.encog.engine.network.activation.ActivationSigmoid;
+import org.encog.ml.data.MLDataSet;
+import org.encog.ml.data.basic.BasicMLDataSet;
+import org.encog.neural.networks.BasicNetwork;
+import org.encog.neural.networks.layers.BasicLayer;
+
+import ie.gmit.sw.ai.GameModel;
+import ie.gmit.sw.ai.Scavenge;
+import ie.gmit.sw.ai.ScavengerAction;
+
+public class ActionProvider {
+
+	private ScavengerAction scavenge;
+
+	public ActionProvider(GameModel model) {
+		scavenge = new Scavenge(model);
+	}
+
+	double[][] data = { { 1.0, 1.0, 1.0 }, { 1.0, 1.0, 2.0 }, { 1.0, 1.0, 3.0 }, { 1.0, 1.0, 4.0 }, { 1.0, 1.0, 5.0 },
+			{ 1.0, 1.0, 6.0 }, { 1.0, 1.0, 7.0 }, { 1.0, 1.0, 8.0 }, { 1.0, 2.0, 1.0 }, { 1.0, 2.0, 2.0 },
+			{ 1.0, 2.0, 3.0 }, { 1.0, 2.0, 4.0 }, { 1.0, 2.0, 5.0 }, { 1.0, 2.0, 6.0 }, { 1.0, 2.0, 7.0 },
+			{ 1.0, 2.0, 8.0 }, { 1.0, 3.0, 1.0 }, { 1.0, 3.0, 2.0 }, { 1.0, 3.0, 3.0 }, { 1.0, 3.0, 4.0 },
+			{ 1.0, 3.0, 5.0 }, { 1.0, 3.0, 6.0 }, { 1.0, 3.0, 7.0 }, { 1.0, 3.0, 8.0 }, { 1.0, 4.0, 1.0 },
+			{ 1.0, 4.0, 2.0 }, { 1.0, 4.0, 3.0 }, { 1.0, 4.0, 4.0 }, { 1.0, 4.0, 5.0 }, { 1.0, 4.0, 6.0 },
+			{ 1.0, 4.0, 7.0 }, { 1.0, 4.0, 8.0 }, { 1.0, 5.0, 1.0 }, { 1.0, 5.0, 2.0 }, { 1.0, 5.0, 3.0 },
+			{ 1.0, 5.0, 4.0 }, { 1.0, 5.0, 5.0 }, { 1.0, 5.0, 6.0 }, { 1.0, 5.0, 7.0 }, { 1.0, 5.0, 8.0 },
+
+			{ 2.0, 1.0, 1.0 }, { 2.0, 1.0, 2.0 }, { 2.0, 1.0, 3.0 }, { 2.0, 1.0, 4.0 }, { 2.0, 1.0, 5.0 },
+			{ 2.0, 1.0, 6.0 }, { 2.0, 1.0, 7.0 }, { 2.0, 1.0, 8.0 }, { 2.0, 2.0, 1.0 }, { 2.0, 2.0, 2.0 },
+			{ 2.0, 2.0, 3.0 }, { 2.0, 2.0, 4.0 }, { 2.0, 2.0, 5.0 }, { 2.0, 2.0, 6.0 }, { 2.0, 2.0, 7.0 },
+			{ 2.0, 2.0, 8.0 }, { 2.0, 3.0, 1.0 }, { 2.0, 3.0, 2.0 }, { 2.0, 3.0, 3.0 }, { 2.0, 3.0, 4.0 },
+			{ 2.0, 3.0, 5.0 }, { 2.0, 3.0, 6.0 }, { 2.0, 3.0, 7.0 }, { 2.0, 3.0, 8.0 }, { 2.0, 4.0, 1.0 },
+			{ 2.0, 4.0, 2.0 }, { 2.0, 4.0, 3.0 }, { 2.0, 4.0, 4.0 }, { 2.0, 4.0, 5.0 }, { 2.0, 4.0, 6.0 },
+			{ 2.0, 4.0, 7.0 }, { 2.0, 4.0, 8.0 }, { 2.0, 5.0, 1.0 }, { 2.0, 5.0, 2.0 }, { 2.0, 5.0, 3.0 },
+			{ 2.0, 5.0, 4.0 }, { 2.0, 5.0, 5.0 }, { 2.0, 5.0, 6.0 }, { 2.0, 5.0, 7.0 }, { 2.0, 5.0, 8.0 } };
+
+	double[][] expected = { { 1.0 }, { 1.0 }, { 1.0 }, { 1.0 }, { 1.0 }, { 1.0 }, { 1.0 }, { 1.0 }, { 2.0 }, { 2.0 },
+			{ 1.0 }, { 1.0 }, { 1.0 }, { 1.0 }, { 1.0 }, { 1.0 }, { 2.0 }, { 2.0 }, { 2.0 }, { 2.0 }, { 1.0 }, { 1.0 },
+			{ 1.0 }, { 1.0 }, { 3.0 }, { 3.0 }, { 3.0 }, { 3.0 }, { 2.0 }, { 2.0 }, { 1.0 }, { 1.0 }, { 4.0 }, { 4.0 },
+			{ 4.0 }, { 3.0 }, { 3.0 }, { 3.0 }, { 2.0 }, { 2.0 }, { 1.0 }, { 1.0 }, { 1.0 }, { 1.0 }, { 1.0 }, { 1.0 },
+			{ 1.0 }, { 1.0 }, { 1.0 }, { 1.0 }, { 1.0 }, { 1.0 }, { 1.0 }, { 1.0 }, { 1.0 }, { 1.0 }, { 2.0 }, { 2.0 },
+			{ 1.0 }, { 1.0 }, { 1.0 }, { 1.0 }, { 1.0 }, { 1.0 }, { 2.0 }, { 2.0 }, { 2.0 }, { 2.0 }, { 1.0 }, { 1.0 },
+			{ 1.0 }, { 1.0 }, { 4.0 }, { 4.0 }, { 2.0 }, { 2.0 }, { 2.0 }, { 2.0 }, { 2.0 }, { 2.0 } };
+
+	public ScavengerAction getAction(int nearCharacter, double strength) {
+		if (nearCharacter == 0)
+			return scavenge;
+
+		System.out.println("[INFO] Creating neural network");
+		BasicNetwork network = new BasicNetwork();
+		network.addLayer(new BasicLayer(null, true, 4));
+		network.addLayer(new BasicLayer(new ActivationSigmoid(), true, 2));
+		network.addLayer(new BasicLayer(new ActivationSigmoid(), false, 4));
+		network.getStructure().finalizeStructure();
+		network.reset();
+
+		System.out.println("[INFO] Creating training set");
+		MLDataSet trainingSet = new BasicMLDataSet();
+
+		return scavenge;
+	}
+
+}

@@ -1,0 +1,9 @@
+package ie.gmit.sw.ai.nn;
+
+import java.util.ArrayList;
+import javafx.collections.transformation.SortedList;
+
+public class AStarPathFinder {
+	private ArrayList closed = new ArrayList();
+	private SortedList open = new SortedList();
+}

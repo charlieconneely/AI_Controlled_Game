@@ -1,0 +1,5 @@
+package ie.gmit.sw.ai;
+
+public abstract interface ScavengerAction {
+	public void act(int row, int col);
+}

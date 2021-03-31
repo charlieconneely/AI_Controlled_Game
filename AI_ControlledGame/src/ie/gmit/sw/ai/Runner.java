@@ -19,7 +19,9 @@ public class Runner {
 		 * CLASSPATH). 
 		 */
 		
-		  //Add long-running initialisation instructions here.
+		 //Add long-running initialisation instructions here.
+		NeuralNetwork nn = NeuralNetwork.getInstance();
+		nn.trainNeuralNetwork();
 		
 		// load in fuzzy logic stuff 
 		// Singletons? 
