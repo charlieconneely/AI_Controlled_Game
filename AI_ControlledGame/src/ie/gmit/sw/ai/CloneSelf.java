@@ -13,14 +13,14 @@ public class CloneSelf extends ScavengerAction {
 	}
 
 	@Override
-	public double act(int row, int col) {
+	public double act(int row, int col, int temp_row, int temp_col) {
 		// if coordinate is out of bounds of the grid - return
-		if (row < 0 || col < 0 || row > model.size() - 1 || col > model.size() - 1) {
+		if (!super.isInBounds(model, temp_row, temp_col)) {
 			return 0;
 		}
 		// if coordinate is a hedge - destroy and return strength increase
-		else if (model.get(row, col) == '0') {
-			model.set(row, col, id);
+		else if (model.get(temp_row, temp_col) == '0') {
+			model.set(temp_row, temp_row, id);
 		}
 		return STRENGTH_GAIN;
 	}

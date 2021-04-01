@@ -5,7 +5,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Scavenger implements Command {
 
 	private GameModel model;
-	private ActionProvider actionProvider;
+	private ScavengerActionProvider actionProvider;
 	private char enemyID;
 	private int row, col;
 	private DepthLimitedSearch dls;
@@ -18,12 +18,12 @@ public class Scavenger implements Command {
 		this.row = row;
 		this.col = col;
 		dls = new DepthLimitedSearch(model);
-		actionProvider = new ActionProvider(model, enemyID);
+		actionProvider = new ScavengerActionProvider(model, enemyID, this);
 	}
 
 	@Override
 	public boolean execute() {
-			
+				
 		// if touching player or hunter - die
 		if (model.isTouchingCharacter('1', row, col) || model.isTouchingCharacter('5', row, col)) {
 			model.decrementGhostCount();
@@ -44,14 +44,23 @@ public class Scavenger implements Command {
 		if (model.isValidMove(row, col, temp_row, temp_col, enemyID)) {
     		model.set(temp_row, temp_col, enemyID);
     		model.set(row, col, '\u0020');
-    		row = temp_row;
-    		col = temp_col;
+    		setActivePosition(temp_row, temp_col);
     		return true;
 		} 
 							
 		ScavengerAction action = actionProvider.getAction(nearCharacter, strength, model.getGhostCount());
-		double strengthGain = action.act(temp_row, temp_col);
-		if (strength < 5) strength += strengthGain;
+		double strengthGain = action.act(row, col, temp_row, temp_col);
+		addStrength(strengthGain);
 		return true;
 	}	
+
+	public void setActivePosition(int r, int c) {
+		row = r;
+		col = c;
+	}
+	
+	private void addStrength(double s) {
+		if (strength < 5) strength += s;
+		if (strength < 0) strength = 0;
+	}
 }

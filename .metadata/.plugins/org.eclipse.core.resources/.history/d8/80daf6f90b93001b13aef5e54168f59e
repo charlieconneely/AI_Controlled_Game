@@ -1,0 +1,42 @@
+package ie.gmit.sw.ai;
+
+public class Teleport extends ScavengerAction {
+	
+	private final double STRENGTH_GAIN = 0;
+	
+	private GameModel model;
+	private char id;
+	private Scavenger scavenger;
+	
+	public Teleport(GameModel model, char id, Scavenger scavenger) {
+		this.id = id;
+		this.model = model;
+		this.scavenger = scavenger;
+	}
+
+	@Override
+	public double act(int row, int col, int temp_row, int temp_col) {
+		// if coordinate is out of bounds of the grid - return
+		if (!super.isInBounds(model, temp_row, temp_col)) {
+			return 0;
+		}
+		// if coordinate is a hedge - destroy and return strength increase
+		int[][] destinations = {{5, 0}, {-5, 0}, {0, 5}, {0, -5}};
+		
+		for (int[] d : destinations) {
+			int drow = d[0];
+			int dcol = d[1];
+			if (super.isInBounds(model, row + drow, col + dcol)) {
+				if (model.get(d[0], d[1]) == ' ' || model.get(d[0], d[1]) == '0') {
+					model.set(row, col, '\u0020');
+					model.set(d[0], d[1], id);
+					scavenger.setActivePosition(d[0], d[1]);
+				}
+			}
+		}
+	
+		return STRENGTH_GAIN;
+	}
+
+}
+

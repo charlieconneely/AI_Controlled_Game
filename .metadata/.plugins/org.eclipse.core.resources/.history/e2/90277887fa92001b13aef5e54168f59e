@@ -1,0 +1,42 @@
+package ie.gmit.sw.ai;
+
+public class HideSelf extends ScavengerAction {
+	
+	private final double STRENGTH_GAIN = 0;
+	
+	private GameModel model;
+	
+	public HideSelf(GameModel model) {
+		this.model = model;
+	}
+
+	@Override
+	public double act(int row, int col) {
+		// if coordinate is out of bounds of the grid - return
+		if (!isInBounds(row, col)) {
+			return 0;
+		}
+		
+		for (int i = -1; i < 2; i++) {
+			for (int j = -1; j < 2; j++) {
+				// if current iteration represents a pos which is in bounds and adjacent
+				// the characters (non diagonally)
+				if (!isInBounds(row + i, col + j) || (i == 0 && j == 0)
+					|| (i != 0 && j != 0)) continue;
+				
+				if (model.get(row + i, col + j) == ' ') {
+					model.set(row + i, col + j, '0');
+				}
+			}
+		}
+		
+		return STRENGTH_GAIN;
+	}
+	
+	private boolean isInBounds(int row, int col) {
+		if (row < 0 || col < 0 || row > model.size() - 1 || col > model.size() - 1) {
+			return false;
+		}
+		return true;
+	}
+}

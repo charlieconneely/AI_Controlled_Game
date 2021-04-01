@@ -1,0 +1,5 @@
+1617293289735	Rename type 'ClonePlayer'
+1617296040119	Rename type 'ActionProvider'
+1617296172739	Rename method 'setRowCol'
+1617304997145	Rename local variable 'drow'
+1617305004082	Rename local variable 'dcol'
