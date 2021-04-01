@@ -29,8 +29,9 @@ public class Teleport extends ScavengerAction {
 			if (super.isInBounds(model, dRow, dCol)) {
 				// replace empty spaces or hedges 
 				if (model.get(dRow, dCol) == ' ' || model.get(dRow, dCol) == '0') {
-					scavenger.setActivePosition(dRow, dCol);
 					model.set(row, col, '\u0020');
+					model.set(dRow, dCol, id);
+					scavenger.setActivePosition(dRow, dCol);
 				}
 			}
 		}

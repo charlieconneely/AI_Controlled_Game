@@ -27,24 +27,19 @@ public class BFS {
 		}
 	}	
 	
-	private boolean isInBounds(int r, int c) {
-		if (r < 0 || c < 0 || r > model.size() - 1 || c > model.size() - 1) {
-			return false;
-		}
-		return true;
-	}
-	
 	public int[] shortestPath(char[][] grid, int[] start, int[] end) {
+		
+		if (end[0] == 0 && end[1] == 0) return start;
+		
 		int sRow = start[0], sCol = start[1];
 		int dRow = end[0], dCol = end[1];
 					
 		int m = grid.length;
 		int n = grid[0].length;
-		int searchArea = 40;
+		int searchArea = 20;
 		CellBlock[][] cells = new CellBlock[m][n];
 		for (int i = sCol - searchArea; i < sCol + searchArea; i++) {
 			for (int j = sRow - searchArea; j < sRow + searchArea; j++) {
-				if (!isInBounds(i, j)) continue;
 				if (grid[i][j] == ' ') {
 					cells[i][j] = new CellBlock(i, j, Integer.MAX_VALUE, null);
 				}
@@ -85,7 +80,6 @@ public class BFS {
 			do {
 				path.addFirst(p);
 			} while((p = p.prev) != null);
-			System.out.println("Path: " + path);
 			CellBlock lastBlock = path.pop();
 			int[] firstStep = {lastBlock.row, lastBlock.col};
 			
@@ -96,15 +90,13 @@ public class BFS {
 	}
 
 	public void visit(CellBlock[][] cells, LinkedList<CellBlock> queue, int row, int col, CellBlock parent) {
-		if (row > model.size() - 1 || col > model.size() - 1 || row < 0 || col < 0) {
-			return;
-		}
-		else if (model.get(row, col) != ' ') {
+		if (row > model.size() - 1 || col > model.size() - 1 || model.get(row, col) != ' ') {
 			return;
 		}
 		
 		int dist = parent.dist + 1;
-		CellBlock p = cells[row][col];
+		//CellBlock p = cells[row][col];
+		CellBlock p = new CellBlock(row, col, cells[row][col].dist, null);
 		if (dist < p.dist) {
 			p.dist = dist;
 			p.prev = parent;

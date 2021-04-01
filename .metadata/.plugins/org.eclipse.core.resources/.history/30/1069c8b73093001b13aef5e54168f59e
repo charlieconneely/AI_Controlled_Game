@@ -19,7 +19,6 @@ public class Hunter implements Command {
 			model.set(row, col, '\u0020');
 			return false;
 		}
-			
 		return true;
 	}
 }

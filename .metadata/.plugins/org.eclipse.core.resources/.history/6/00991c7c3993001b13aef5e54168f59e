@@ -16,7 +16,7 @@ public class ScavengerActionProvider {
 	}
 
 	public ScavengerAction getAction(int nearCharacter, double strength, int ghostCount) {
-		if (nearCharacter == 0) // 0 = no character is near
+		if (nearCharacter == 0) // 0 - no character is near
 			return scavenge;
 
 		// pass state of game character to nn to determine action

@@ -40,7 +40,7 @@ public class BFS {
 					
 		int m = grid.length;
 		int n = grid[0].length;
-		int searchArea = 40;
+		int searchArea = 20;
 		CellBlock[][] cells = new CellBlock[m][n];
 		for (int i = sCol - searchArea; i < sCol + searchArea; i++) {
 			for (int j = sRow - searchArea; j < sRow + searchArea; j++) {

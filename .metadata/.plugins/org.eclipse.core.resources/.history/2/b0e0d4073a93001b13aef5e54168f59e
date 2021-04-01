@@ -31,6 +31,7 @@ public class Teleport extends ScavengerAction {
 				if (model.get(dRow, dCol) == ' ' || model.get(dRow, dCol) == '0') {
 					scavenger.setActivePosition(dRow, dCol);
 					model.set(row, col, '\u0020');
+					/model.set(dRow, dCol, id);
 				}
 			}
 		}

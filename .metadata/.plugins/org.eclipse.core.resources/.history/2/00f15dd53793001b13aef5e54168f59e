@@ -20,7 +20,7 @@ public class CloneSelf extends ScavengerAction {
 		}
 		// if coordinate contains hedge - clone self in that pos
 		else if (model.get(temp_row, temp_col) == '0') {
-			model.set(temp_row, temp_col, id);
+			model.set(temp_row, temp_row, id);
 		}
 		return STRENGTH_GAIN;
 	}

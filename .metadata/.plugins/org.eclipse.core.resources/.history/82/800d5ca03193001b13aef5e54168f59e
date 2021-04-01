@@ -5,12 +5,14 @@ public class Hunter implements Command {
 	private GameModel model;
 	private char enemyID;
 	private int row, col;
+	private BFS bfs;
 	
 	public Hunter(GameModel model, char enemyID, int row, int col) {
 		this.model = model;
 		this.enemyID = enemyID;
 		this.row = row;
 		this.col = col;
+		bfs = new BFS(model);
 	}
 	
 	@Override

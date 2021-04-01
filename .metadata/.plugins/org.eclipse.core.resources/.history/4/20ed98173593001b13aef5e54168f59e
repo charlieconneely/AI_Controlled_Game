@@ -1,7 +1,8 @@
 package ie.gmit.sw.ai;
 
 public class ScavengerActionProvider {
-
+	
+	private Scavenger scavenger;
 	private ScavengerAction scavenge;
 	private ScavengerAction cloneSelf;
 	private ScavengerAction teleport;
@@ -13,27 +14,32 @@ public class ScavengerActionProvider {
 		cloneSelf = new CloneSelf(model, enemyID);
 		teleport = new Teleport(model, enemyID, scavenger);
 		hideSelf = new HideSelf(model);
+		this.scavenger = scavenger;
 	}
-
+	
 	public ScavengerAction getAction(int nearCharacter, double strength, int ghostCount) {
-		if (nearCharacter == 0) // 0 = no character is near
+		if (nearCharacter == 0) // 0 - no character is near 
 			return scavenge;
-
+		
+		double strengthRoundedDown = Math.floor(strength);
 		// pass state of game character to nn to determine action
-		double[] nnInput = { (double)nearCharacter, (double)Math.floor(strength), (double)ghostCount };
+		double[] nnInput = {(double) nearCharacter, strengthRoundedDown, (double) ghostCount};
 		int action = nn.classifyAction(nnInput);
-
-		switch (action) {
-		case 1:
+		
+		if (action == 1) {
 			return scavenge;
-		case 2:
+		} else if (action == 2) {
+			System.out.println("Clone self");
 			return cloneSelf;
-		case 3:
+		} else if (action == 3) {
+			System.out.println("Teleport");
 			return teleport;
-		case 4:
+		} else if (action == 4) {
+			System.out.println("Hide");
 			return hideSelf;
-		default:
-			return scavenge;
 		}
+
+		return scavenge;
 	}
+		
 }
