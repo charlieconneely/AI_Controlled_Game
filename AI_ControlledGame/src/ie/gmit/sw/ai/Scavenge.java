@@ -13,7 +13,7 @@ public class Scavenge extends ScavengerAction {
 	@Override
 	public double act(int row, int col, int temp_row, int temp_col) {
 		// if coordinate is out of bounds of the grid - return
-		if (!super.isInBounds(model, temp_row, temp_col)) {
+		if (!model.isInBounds(temp_row, temp_col)) {
 			return 0;
 		}
 		// if coordinate is a hedge - destroy and return strength increase

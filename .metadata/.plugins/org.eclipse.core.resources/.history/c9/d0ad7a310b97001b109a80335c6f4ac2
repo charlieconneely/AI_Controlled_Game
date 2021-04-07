@@ -1,0 +1,21 @@
+package ie.gmit.sw.ai;
+
+public class Node {
+	
+	private int x, y;
+	private Node parent;
+	
+	public Node(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
+	
+	public void setParent(Node parent) {
+		this.parent = parent;
+	}
+	
+	public Node getParent() {
+		return parent;
+	}
+
+}

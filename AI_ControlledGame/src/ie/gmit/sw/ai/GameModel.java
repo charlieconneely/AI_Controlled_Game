@@ -104,7 +104,7 @@ public class GameModel {
 					ghostCount++;
 					break;
 				case RED_GREEN_GHOST_ID:
-					tasks.add(new CharacterTask(this, new Hunter(this, enemyID, row, col)));
+					tasks.add(new CharacterTask(this, new Hunter(this, row, col)));
 					break;
 				}
 				counter++;
@@ -127,28 +127,25 @@ public class GameModel {
 	}
 	
 	public boolean isTouchingCharacter(char id, int r, int c) {
+		int[][] adjPositions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
 		
-		if (r - 1 <= this.size() - 1 && c <= this.size() - 1) {
-			if ((r - 1) > 0) {
-				if (this.get(r - 1, c) == id) return true;
+		for (int[] a : adjPositions) {
+			int dRow = r + a[0];
+			int dCol = c + a[1];
+			
+			if (isInBounds(dRow, dCol)) {
+				if (this.get(dRow, dCol) == id) return true;
 			}
-		}
-		
-		if (r + 1 <= this.size() - 1 && c <= this.size() - 1) { 
-			if (this.get(r + 1, c) == id) return true;
-		}
-		
-		if (r <= this.size() - 1 && c - 1 <= this.size() - 1) {
-			if ((c - 1) > 0) { 
-				if (this.get(r, c - 1) == id) return true;
-			}
-		}
-		
-		if (r <= this.size() - 1 && c + 1 <= this.size() - 1) {
-			if (this.get(r, c + 1) == id) return true;
 		}
 		
 		return false;
+	}
+	
+	public boolean isInBounds(int row, int col) {
+		if (row < 0 || col < 0 || row > this.size() - 1 || col > this.size() - 1) {
+			return false;
+		}
+		return true;
 	}
 		
 	public void decrementGhostCount() {

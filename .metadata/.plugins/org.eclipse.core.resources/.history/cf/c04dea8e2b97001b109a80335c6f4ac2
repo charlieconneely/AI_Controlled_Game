@@ -1,0 +1,57 @@
+package ie.gmit.sw.ai;
+
+import java.util.Deque;
+
+public class Hunter implements Command {
+
+	private GameModel model;
+	private DepthLimitedSearch dls;
+	private PathFinder pathFinder;
+	private int row, col;
+	private int playerPosx, playerPosy;
+	
+	public Hunter(GameModel model, int row, int col) {
+		this.model = model;
+		this.row = row;
+		this.col = col;
+		pathFinder = new PathFinder(model);
+		dls = new DepthLimitedSearch(model);
+		playerPosx = playerPosy = 0;
+	}
+	
+	@Override
+	public boolean execute() {
+		if (model.isTouchingCharacter('1', row, col)) {
+			model.set(row, col, '\u0020');
+			return false;
+		}
+		findPlayerPos();
+		
+		Path path = pathFinder.findPath(row, col, playerPosx, playerPosy);
+		
+		if (path != null) {
+			Deque steps = path.getPath(); 
+			Step finalStep = (Step) steps.getLast();
+			System.out.println("last item on steps: " + finalStep.getX() + "," + finalStep.getY());
+			System.out.println("player pos: " + playerPosx + "," + playerPosy);
+		}
+		return true;
+	}
+	
+	public void setActivePosition(int r, int c) {
+		row = r;
+		col = c;
+	}
+	
+	private void findPlayerPos() {
+		char[][] map = model.getModel();
+		for (int i = 0; i < map.length; i++) {
+			for (int j = 0; j < map[i].length; j++) {
+				if (model.get(i, j) == '1') {
+					playerPosx = i;
+					playerPosy = j;
+				}
+			}
+		}
+	}
+}

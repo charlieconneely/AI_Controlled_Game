@@ -6,12 +6,10 @@ public class Teleport extends ScavengerAction {
 	private final static int DISTANCE = 5;
 	
 	private GameModel model;
-	private char id;
 	private Scavenger scavenger;
 	private int[][] destinations = {{DISTANCE, 0}, {-DISTANCE, 0}, {0, DISTANCE}, {0, -DISTANCE}};
 	
-	public Teleport(GameModel model, char id, Scavenger scavenger) {
-		this.id = id;
+	public Teleport(GameModel model, Scavenger scavenger) {
 		this.model = model;
 		this.scavenger = scavenger;
 	}
@@ -19,14 +17,14 @@ public class Teleport extends ScavengerAction {
 	@Override
 	public double act(int row, int col, int temp_row, int temp_col) {
 		// if coordinate is out of bounds of the grid - return
-		if (!super.isInBounds(model, temp_row, temp_col)) {
+		if (!model.isInBounds(temp_row, temp_col)) {
 			return 0;
 		}
 	
 		for (int[] d : destinations) {
 			int dRow = row + d[0];
 			int dCol = col + d[1];
-			if (super.isInBounds(model, dRow, dCol)) {
+			if (model.isInBounds(dRow, dCol)) {
 				// replace empty spaces or hedges 
 				if (model.get(dRow, dCol) == ' ' || model.get(dRow, dCol) == '0') {
 					scavenger.setActivePosition(dRow, dCol);

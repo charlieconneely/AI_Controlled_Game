@@ -1,0 +1,49 @@
+package ie.gmit.sw.ai;
+
+public class DepthLimitedSearch {
+	
+	private GameModel model;
+	private int[] positionOfEnemy;
+	
+	public DepthLimitedSearch(GameModel model) {
+		this.model = model;
+	}
+	
+	public int search(int row, int col, int depth, char enemyID) {
+		int character = 0;
+		for (int i = (row - depth); i <= (row + depth); i++) {
+			for (int j = (col - depth); j <= (col + depth); j++) {
+				if (i > model.size() - 1 || j > model.size() - 1 || i < 0 || j < 0) continue;
+				character = classifyCharacter(model.get(i, j), i, j);
+			}
+		}	
+		return character;
+	}
+	
+	public int[] getTargetPosition() {
+		return positionOfEnemy;
+	}
+	
+	public void setTargetPosition(int r, int c) {
+		int[] pos = {r, c};
+		positionOfEnemy = pos;
+	}
+	
+	private int classifyCharacter(char pos, int r, int c) {
+		switch(pos) 
+		{
+			case '1': //  player
+				return 1;
+			case '5': // red green 
+				return 2;
+			case '2': // scavengers
+			case '3':
+			case '4':
+			case '6':
+				setTargetPosition(r,c);
+				return 3;
+			default:
+				return 0;
+		}
+	}
+}

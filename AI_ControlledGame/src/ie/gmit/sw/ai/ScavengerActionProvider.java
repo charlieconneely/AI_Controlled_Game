@@ -11,7 +11,7 @@ public class ScavengerActionProvider {
 	public ScavengerActionProvider(GameModel model, char enemyID, Scavenger scavenger) {
 		scavenge = new Scavenge(model);
 		cloneSelf = new CloneSelf(model, enemyID);
-		teleport = new Teleport(model, enemyID, scavenger);
+		teleport = new Teleport(model, scavenger);
 		hideSelf = new HideSelf(model);
 	}
 

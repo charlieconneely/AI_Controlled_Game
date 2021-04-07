@@ -1,0 +1,37 @@
+package ie.gmit.sw.ai;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ArrayList;
+
+public class Path {
+	private List<Step> path = new ArrayList<Path>();
+	
+	public int getLength() {
+		return 0;
+	}
+	
+	public int[] getStep(int index) {
+		return null;
+	}
+	
+	public int getX(int index) {
+		return 0;
+	}
+
+	public int getY(int index) {
+		return 0;
+	}
+	
+	public void appendStep(int r, int c) {
+		
+	}
+	
+	public void prependStep(int r, int c) {
+		
+	}
+	
+	public boolean contains(int r, int c) {
+		return false;
+	}
+}

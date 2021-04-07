@@ -3,25 +3,68 @@ package ie.gmit.sw.ai;
 public class DepthLimitedSearch {
 	
 	private GameModel model;
+	private int[] positionOfEnemy;
 	
 	public DepthLimitedSearch(GameModel model) {
 		this.model = model;
 	}
 	
-	public int search(int row, int col, int depth) {
+	public int search(int row, int col, int depth, char enemyID) {
+		// if hunter - search for scavengers 
+		if (enemyID == '\u0035') { 
+			return searchForScavenger(row, col, depth);
+		} else {
+			return searchForHunter(row, col, depth);
+		}
+	}
+	
+	private int searchForScavenger(int row, int col, int depth) {
 		for (int i = (row - depth); i <= (row + depth); i++) {
 			for (int j = (col - depth); j <= (col + depth); j++) {
 				if (i > model.size() - 1 || j > model.size() - 1 || i < 0 || j < 0) continue;
-				// if player
-				if (model.get(i, j) == '1') {
-					return 1;
-				} 
-				// if red green 
-				else if (model.get(i, j) == '5') {
-					return 5;
+				boolean present = checkForScavenger(model.get(i, j));
+				if (present) {
+					setTargetPosition(i, j);
+					return 3;
 				}
 			}
-		}	
+		}
 		return 0;
 	}
+	
+	private int searchForHunter(int row, int col, int depth) {
+		for (int i = (row - depth); i <= (row + depth); i++) {
+			for (int j = (col - depth); j <= (col + depth); j++) {
+				if (i > model.size() - 1 || j > model.size() - 1 || i < 0 || j < 0) continue;
+				if (model.get(i, j) == '1') {
+					return 1;
+				} else if (model.get(i, j) == '5') {
+					return 2;
+				}
+			}
+		}
+		return 0;
+	}
+	
+	private boolean checkForScavenger(char pos) {
+		switch (pos) {
+			case '2': // scavengers
+			case '3':
+			case '4':
+			case '6':
+				return true;
+			default:
+				return false;
+		}
+	}
+	
+	public int[] getTargetPosition() {
+		return positionOfEnemy;
+	}
+	
+	public void setTargetPosition(int r, int c) {
+		int[] pos = {r, c};
+		positionOfEnemy = pos;
+	}
+
 }

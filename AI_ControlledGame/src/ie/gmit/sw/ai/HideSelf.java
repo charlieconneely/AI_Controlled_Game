@@ -13,7 +13,7 @@ public class HideSelf extends ScavengerAction {
 	@Override
 	public double act(int row, int col, int temp_row, int temp_col) {
 		// if coordinate is out of bounds of the grid - return
-		if (!super.isInBounds(model, temp_row, temp_col)) {
+		if (!model.isInBounds(temp_row, temp_col)) {
 			return 0;
 		}
 		
@@ -23,7 +23,7 @@ public class HideSelf extends ScavengerAction {
 			int dRow = row + a[0];
 			int dCol = col + a[1];
 			
-			if (super.isInBounds(model, dRow, dCol)) {
+			if (model.isInBounds(dRow, dCol)) {
 				if (model.get(dRow, dCol) == ' ') {
 					model.set(dRow, dCol, '0');
 				}

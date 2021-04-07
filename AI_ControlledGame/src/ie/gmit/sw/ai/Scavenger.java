@@ -22,8 +22,7 @@ public class Scavenger implements Command {
 	}
 
 	@Override
-	public boolean execute() {
-				
+	public boolean execute() {					
 		// if touching player or hunter - die
 		if (model.isTouchingCharacter('1', row, col) || model.isTouchingCharacter('5', row, col)) {
 			model.decrementGhostCount();
@@ -31,8 +30,12 @@ public class Scavenger implements Command {
 			return false;
 		}
 		
-		int nearCharacter = dls.search(row, col, 5);
-
+		int nearCharacter = dls.search(row, col, 5, enemyID);
+		// only need to worry about player (1) or hunter (2)
+		if (nearCharacter != 1 && nearCharacter != 2) {
+			nearCharacter = 0;
+		}
+			
 		//Randomly pick a direction up, down, left or right
 		int temp_row = row, temp_col = col;
 		if (rand.nextBoolean()) {

@@ -1,5 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="java.util.LinkedList"/>
     <fullyQualifiedTypeName name="java.nio.file.Path"/>
+    <fullyQualifiedTypeName name="ie.gmit.sw.ai.nn.ActionProvider"/>
+    <fullyQualifiedTypeName name="ie.gmit.sw.ai.ScavengerAction"/>
+    <fullyQualifiedTypeName name="ie.gmit.sw.ai.GameModel"/>
+    <fullyQualifiedTypeName name="ie.gmit.sw.ai.Scavenge"/>
+    <fullyQualifiedTypeName name="org.encog.neural.networks.layers.BasicLayer"/>
+    <fullyQualifiedTypeName name="org.encog.engine.network.activation.ActivationSigmoid"/>
+    <fullyQualifiedTypeName name="org.encog.ml.data.basic.BasicMLDataSet"/>
+    <fullyQualifiedTypeName name="org.encog.ml.data.MLDataSet"/>
+    <fullyQualifiedTypeName name="org.encog.neural.networks.training.propagation.resilient.ResilientPropagation"/>
+    <fullyQualifiedTypeName name="org.encog.Encog"/>
+    <fullyQualifiedTypeName name="org.encog.ml.data.MLDataPair"/>
+    <fullyQualifiedTypeName name="org.encog.ml.data.MLData"/>
+    <fullyQualifiedTypeName name="org.encog.ml.data.basic.BasicMLData"/>
+    <fullyQualifiedTypeName name="java.util.ArrayList"/>
+    <fullyQualifiedTypeName name="javafx.collections.transformation.SortedList"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="java.util.LinkedList"/>
+    <fullyQualifiedTypeName name="java.lang.System"/>
+    <fullyQualifiedTypeName name="java.util.Deque"/>
 </qualifiedTypeNameHistroy>

@@ -1,0 +1,38 @@
+	package ie.gmit.sw.ai;
+
+public class DepthLimitedSearch {
+	
+	private GameModel model;
+	
+	public DepthLimitedSearch(GameModel model) {
+		this.model = model;
+	}
+	
+	public int search(int row, int col, int depth) {
+		int character = 0;
+		for (int i = (row - depth); i <= (row + depth); i++) {
+			for (int j = (col - depth); j <= (col + depth); j++) {
+				if (i > model.size() - 1 || j > model.size() - 1 || i < 0 || j < 0) continue;
+				character = classifyCharacter(model.get(i, j));
+			}
+		}	
+		return character;
+	}
+	
+	private int classifyCharacter(char pos) {
+		switch(pos) 
+		{
+			case '1': //  player
+				return 1;
+			case '5': // red green 
+				return 2;
+			case '2': // scavengers
+			case '3':
+			case '4':
+			case '6':
+				return 3;
+			default:
+				return 0;
+		}
+	}
+}
