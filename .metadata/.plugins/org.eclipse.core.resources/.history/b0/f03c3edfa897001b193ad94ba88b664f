@@ -1,12 +1,9 @@
 package ie.gmit.sw.ai;
 
 import java.util.Deque;
-import java.util.Iterator;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Hunter implements Command {
-	
-	private static final char RED_GREEN_GHOST_ID = '\u0035';
 
 	private GameModel model;
 	private DepthLimitedSearch dls;
@@ -31,9 +28,9 @@ public class Hunter implements Command {
 			return false;
 		}
 		
-		boolean nearScavenger = dls.searchForScavenger(row, col, 10);
+		int nearCharacter = dls.search(row, col, 10, '\u0035');
 		
-		if (nearScavenger) {
+		if (nearCharacter == 3) {
 			findPath(dls.getTargetPosition());
 		} else {
 			//Randomly pick a direction up, down, left or right
@@ -44,8 +41,8 @@ public class Hunter implements Command {
 	    		temp_col += rand.nextBoolean() ? 1 : -1;
 	    	}
 			
-			if (model.isValidMove(row, col, temp_row, temp_col, RED_GREEN_GHOST_ID)) {
-	    		model.set(temp_row, temp_col, RED_GREEN_GHOST_ID);
+			if (model.isValidMove(row, col, temp_row, temp_col, '\u0035')) {
+	    		model.set(temp_row, temp_col, '\u0035');
 	    		model.set(row, col, '\u0020');
 	    		setActivePosition(temp_row, temp_col);
 	    		return true;
@@ -69,14 +66,7 @@ public class Hunter implements Command {
 		
 		
 		if (path != null) {
-			Deque<Step> steps = path.getPath(); 
-			
-			System.out.println("Target: " + target[0] + "," + target[1]);
-			
-			for (Step s: steps) {
-				System.out.println("Step: (" + s.getX() + "," + s.getY() + ")");
-			}
-			
+			Deque steps = path.getPath(); 
 			Step finalStep = (Step) steps.getLast();
 			System.out.println("last item on steps: " + finalStep.getX() + "," + finalStep.getY());
 			System.out.println("target pos: " + target[0] + "," + target[1]);

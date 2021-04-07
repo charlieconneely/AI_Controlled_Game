@@ -30,7 +30,7 @@ public class Scavenger implements Command {
 			return false;
 		}
 		
-		int nearCharacter = dls.searchForHunter(row, col, 5);
+		int nearCharacter = dls.search(row, col, 5, enemyID);
 			
 		//Randomly pick a direction up, down, left or right
 		int temp_row = row, temp_col = col;

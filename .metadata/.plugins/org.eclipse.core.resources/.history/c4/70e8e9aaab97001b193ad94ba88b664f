@@ -38,7 +38,6 @@ public class DepthLimitedSearch {
 	
 	private boolean isScavenger(char pos) {
 		switch (pos) {
-			case '1': // PLAYER - TAKE OUT 
 			case '2': // scavengers
 			case '3':
 			case '4':

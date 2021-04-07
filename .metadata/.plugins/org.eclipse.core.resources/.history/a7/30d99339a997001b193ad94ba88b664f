@@ -1,7 +1,6 @@
 package ie.gmit.sw.ai;
 
 import java.util.Deque;
-import java.util.Iterator;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Hunter implements Command {
@@ -31,9 +30,9 @@ public class Hunter implements Command {
 			return false;
 		}
 		
-		boolean nearScavenger = dls.searchForScavenger(row, col, 10);
+		int nearCharacter = dls.search(row, col, 10, RED_GREEN_GHOST_ID);
 		
-		if (nearScavenger) {
+		if (nearCharacter == 3) {
 			findPath(dls.getTargetPosition());
 		} else {
 			//Randomly pick a direction up, down, left or right
@@ -69,14 +68,7 @@ public class Hunter implements Command {
 		
 		
 		if (path != null) {
-			Deque<Step> steps = path.getPath(); 
-			
-			System.out.println("Target: " + target[0] + "," + target[1]);
-			
-			for (Step s: steps) {
-				System.out.println("Step: (" + s.getX() + "," + s.getY() + ")");
-			}
-			
+			Deque steps = path.getPath(); 
 			Step finalStep = (Step) steps.getLast();
 			System.out.println("last item on steps: " + finalStep.getX() + "," + finalStep.getY());
 			System.out.println("target pos: " + target[0] + "," + target[1]);

@@ -9,20 +9,31 @@ public class DepthLimitedSearch {
 		this.model = model;
 	}
 	
+	public int search(int row, int col, int depth, char enemyID) {
+		// if hunter - search for scavengers 
+		if (enemyID == '\u0035') { 
+			//return searchForScavenger(row, col, depth);
+		} else {
+			return searchForHunter(row, col, depth);
+		}
+		return 0;
+	}
+	
 	public boolean searchForScavenger(int row, int col, int depth) {
 		for (int i = (row - depth); i <= (row + depth); i++) {
 			for (int j = (col - depth); j <= (col + depth); j++) {
 				if (i > model.size() - 1 || j > model.size() - 1 || i < 0 || j < 0) continue;
-				if (isScavenger(model.get(i, j))) {
+				boolean present = checkForScavenger(model.get(i, j));
+				if (present) {
 					setTargetPosition(i, j);
-					return true;
+					return present;
 				}
 			}
 		}
 		return false;
 	}
 	
-	public int searchForHunter(int row, int col, int depth) {
+	private int searchForHunter(int row, int col, int depth) {
 		for (int i = (row - depth); i <= (row + depth); i++) {
 			for (int j = (col - depth); j <= (col + depth); j++) {
 				if (i > model.size() - 1 || j > model.size() - 1 || i < 0 || j < 0) continue;
@@ -36,9 +47,8 @@ public class DepthLimitedSearch {
 		return 0;
 	}
 	
-	private boolean isScavenger(char pos) {
+	private boolean checkForScavenger(char pos) {
 		switch (pos) {
-			case '1': // PLAYER - TAKE OUT 
 			case '2': // scavengers
 			case '3':
 			case '4':

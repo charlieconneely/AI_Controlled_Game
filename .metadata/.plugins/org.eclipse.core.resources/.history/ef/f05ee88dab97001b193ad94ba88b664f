@@ -74,7 +74,7 @@ public class Hunter implements Command {
 			System.out.println("Target: " + target[0] + "," + target[1]);
 			
 			for (Step s: steps) {
-				System.out.println("Step: (" + s.getX() + "," + s.getY() + ")");
+				System.out.println("(" + s.getX() + "," + s.getY() + ")");
 			}
 			
 			Step finalStep = (Step) steps.getLast();

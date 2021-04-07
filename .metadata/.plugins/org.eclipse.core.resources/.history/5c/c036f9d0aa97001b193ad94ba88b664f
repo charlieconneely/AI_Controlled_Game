@@ -1,7 +1,6 @@
 package ie.gmit.sw.ai;
 
 import java.util.Deque;
-import java.util.Iterator;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Hunter implements Command {
@@ -69,13 +68,9 @@ public class Hunter implements Command {
 		
 		
 		if (path != null) {
-			Deque<Step> steps = path.getPath(); 
+			Deque steps = path.getPath(); 
 			
 			System.out.println("Target: " + target[0] + "," + target[1]);
-			
-			for (Step s: steps) {
-				System.out.println("Step: (" + s.getX() + "," + s.getY() + ")");
-			}
 			
 			Step finalStep = (Step) steps.getLast();
 			System.out.println("last item on steps: " + finalStep.getX() + "," + finalStep.getY());

@@ -69,13 +69,14 @@ public class Hunter implements Command {
 		
 		
 		if (path != null) {
-			Deque<Step> steps = path.getPath(); 
+			Deque steps = path.getPath(); 
 			
 			System.out.println("Target: " + target[0] + "," + target[1]);
+			Iterator<Integer> it = steps.iterator();
 			
-			for (Step s: steps) {
-				System.out.println("Step: (" + s.getX() + "," + s.getY() + ")");
-			}
+			while (it.hasNext()) {
+	            System.out.println(it.next());
+	        }
 			
 			Step finalStep = (Step) steps.getLast();
 			System.out.println("last item on steps: " + finalStep.getX() + "," + finalStep.getY());
