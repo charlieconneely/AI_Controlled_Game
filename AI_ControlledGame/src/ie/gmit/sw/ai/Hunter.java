@@ -1,8 +1,12 @@
 package ie.gmit.sw.ai;
 
 import java.util.Deque;
-import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.concurrent.ThreadLocalRandom;
+
+import ie.gmit.sw.ai.pathfinding.Path;
+import ie.gmit.sw.ai.pathfinding.PathFinder;
+import ie.gmit.sw.ai.pathfinding.Step;
 
 public class Hunter implements Command {
 	
@@ -13,7 +17,7 @@ public class Hunter implements Command {
 	private PathFinder pathFinder;
 	private int row, col;
 	private static ThreadLocalRandom rand = ThreadLocalRandom.current();
-	private int playerPosx, playerPosy;
+	private Deque<Step> stepsToScavenger = new LinkedList<Step>(); 
 	
 	public Hunter(GameModel model, int row, int col) {
 		this.model = model;
@@ -21,7 +25,6 @@ public class Hunter implements Command {
 		this.col = col;
 		pathFinder = new PathFinder(model);
 		dls = new DepthLimitedSearch(model);
-		playerPosx = playerPosy = 0;
 	}
 	
 	@Override
@@ -30,6 +33,14 @@ public class Hunter implements Command {
 			model.set(row, col, '\u0020');
 			return false;
 		}
+		
+		if (!stepsToScavenger.isEmpty()) {
+			Step step = stepsToScavenger.poll(); 			
+    		model.set(step.getX(), step.getY(), RED_GREEN_GHOST_ID);
+    		model.set(row, col, '\u0020');
+    		setActivePosition(step.getX(), step.getY());
+			return true;
+		}	
 		
 		boolean nearScavenger = dls.searchForScavenger(row, col, 10);
 		
@@ -61,37 +72,10 @@ public class Hunter implements Command {
 	
 	private void findPath(int[] target) {
 		Path path = pathFinder.findPath(row, col, target[0], target[1]);
-		
-		// TO DO 
-		// if retrieves steps - go through each of them until reach that position.
-		// maybe by setting up a local list, up execute -> check if list is empty 
-		// if not move to next position popped of 
-		
-		
+				
 		if (path != null) {
-			Deque<Step> steps = path.getPath(); 
-			
+			stepsToScavenger = path.getPath(); 			
 			System.out.println("Target: " + target[0] + "," + target[1]);
-			
-			for (Step s: steps) {
-				System.out.println("Step: (" + s.getX() + "," + s.getY() + ")");
-			}
-			
-			Step finalStep = (Step) steps.getLast();
-			System.out.println("last item on steps: " + finalStep.getX() + "," + finalStep.getY());
-			System.out.println("target pos: " + target[0] + "," + target[1]);
-		}
-	}
-	
-	private void findPlayerPos() {
-		char[][] map = model.getModel();
-		for (int i = 0; i < map.length; i++) {
-			for (int j = 0; j < map[i].length; j++) {
-				if (model.get(i, j) == '1') {
-					playerPosx = i;
-					playerPosy = j;
-				}
-			}
 		}
 	}
 }

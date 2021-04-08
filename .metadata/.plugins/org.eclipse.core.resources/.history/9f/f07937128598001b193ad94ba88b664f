@@ -1,0 +1,183 @@
+package ie.gmit.sw.ai;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import  java.lang.Math;
+
+public class PathFinder {
+	
+	private ArrayList<Node> closed = new ArrayList<Node>();
+	private SortedList open = new SortedList();
+	private GameModel model;
+	private NodeMap nodeMap;
+	private int maxSearchDistance = 500;
+	
+	public PathFinder(GameModel model) {
+		this.model = model;
+		nodeMap = new NodeMap(model.getModel());
+	}
+	
+	public Path findPath(int sx, int sy, int tx, int ty) {
+		
+		// ====== DEBGU =======
+		System.out.println("1");
+		// ====== DEBGU =======
+		
+		//nodeMap.initialize(model.getModel());
+		Node startNode = nodeMap.getNode(sx,sy);
+		Node endNode = nodeMap.getNode(tx,ty);
+		
+		// ====== DEBGU =======
+		System.out.println("1.1");
+		// ====== DEBGU =======
+		
+		// initialization
+		startNode.setCost(0);
+		startNode.setDepth(0);
+		
+		// ====== DEBGU =======
+		System.out.println("1.2");
+		// ====== DEBGU =======
+		
+		closed.clear();
+		open.clear();
+		open.add(startNode);
+		
+		// ====== DEBGU =======
+		System.out.println("1.3");
+		// ====== DEBGU =======
+		
+		startNode.setParentNull();
+		
+		int maxDepth = 0;
+		
+		// ====== DEBGU =======
+		System.out.println("1.4");
+		// ====== DEBGU =======
+		
+		while((open.size() != 0) && (maxDepth < maxSearchDistance)) {
+			
+			// ====== DEBGU =======
+			System.out.println("1.5");
+			// ====== DEBGU =======
+			
+			Node current = (Node) open.first();
+	
+			if (current == endNode) {
+				// found destination node
+				break;
+			}
+			open.remove(current);
+			closed.add(current);
+			
+			// ====== DEBGU =======
+			System.out.println("2");
+			// ====== DEBGU =======
+			
+			for (int x = -1; x < 2; x++) {
+				for (int y=-1;y<2;y++) {
+					if ((x == 0) && (y == 0)) continue;
+					if ((x != 0) && (y != 0)) continue;
+					
+					int xp = x + current.getX();
+					int yp = y + current.getY();
+					
+					// ====== DEBGU =======
+					System.out.println("3");
+					// ====== DEBGU =======
+					
+					if (isValidLocation(xp, yp)) {
+						
+						// ====== DEBGU =======
+						System.out.println("3.1");
+						// ====== DEBGU =======
+						
+						int nextStepCost = current.getCost() + 1;
+						
+						// ====== DEBGU =======
+						System.out.println("3.2");
+						// ====== DEBGU =======
+						
+						Node neighbour = nodeMap.getNode(xp, yp);
+						
+						// ====== DEBGU =======
+						System.out.println("3.3");
+						// ====== DEBGU =======
+						
+						nodeMap.pathFinderVisited(xp, yp);
+						
+						// ====== DEBGU =======
+						System.out.println("4");
+						// ====== DEBGU =======
+						
+						if (nextStepCost < neighbour.getCost()) {
+							if (open.contains(neighbour)) {
+								open.remove(neighbour);
+							}
+							if (closed.contains(neighbour)) {
+								closed.remove(neighbour);
+							}
+						}
+						
+						// ====== DEBGU =======
+						System.out.println("5");
+						// ====== DEBGU =======
+						
+						if (!open.contains(neighbour) && !closed.contains(neighbour)) {
+							neighbour.setCost(nextStepCost);
+							neighbour.setHeuristic(getHeuristicCost(xp, yp, tx, ty));
+							maxDepth = Math.max(maxDepth, neighbour.setParent(current));
+							open.add(neighbour);
+						}
+						
+						// ====== DEBGU =======
+						System.out.println("6");
+						// ====== DEBGU =======
+					}
+				}
+			}
+		}
+		
+		// ====== DEBGU =======
+		System.out.println("6");
+		// ====== DEBGU =======
+
+		if (nodeMap.getNode(tx, ty).getParent() == null) {
+			nodeMap.resetVisited();
+			return null;
+		}	
+		
+		// ====== DEBGU =======
+		System.out.println("7");
+		// ====== DEBGU =======
+		
+		Path path = new Path();
+		Node target = endNode;
+		while (target != startNode) {
+			path.prependStep(target.getX(), target.getY());
+			target = target.getParent();
+		}
+		
+		// ====== DEBGU =======
+		System.out.println("8");
+		// ====== DEBGU =======
+
+		path.prependStep(sx, sy);
+		nodeMap.resetVisited();
+		return path;
+	}
+	
+	private float getHeuristicCost(int xp, int yp, int tx, int ty) {
+		return (Math.abs(xp - tx) + Math.abs(yp - ty));
+	}
+	
+	private boolean isValidLocation(int x, int y) {
+		if (model.isInBounds(x, y)) {
+			if (model.get(x, y) == ' ') {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+}

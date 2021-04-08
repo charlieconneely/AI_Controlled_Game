@@ -1,0 +1,102 @@
+package ie.gmit.sw.ai;
+
+import java.util.Deque;
+import java.util.LinkedList;
+import java.util.concurrent.ThreadLocalRandom;
+
+public class Hunter implements Command {
+	
+	private static final char RED_GREEN_GHOST_ID = '\u0035';
+
+	private GameModel model;
+	private DepthLimitedSearch dls;
+	private PathFinder pathFinder;
+	private int row, col;
+	private static ThreadLocalRandom rand = ThreadLocalRandom.current();
+	private Deque<Step> stepsToScavenger = new LinkedList<Step>(); 
+	private int playerPosx, playerPosy;
+	
+	public Hunter(GameModel model, int row, int col) {
+		this.model = model;
+		this.row = row;
+		this.col = col;
+		pathFinder = new PathFinder(model);
+		dls = new DepthLimitedSearch(model);
+		playerPosx = playerPosy = 0;
+	}
+	
+	@Override
+	public boolean execute() {
+		if (model.isTouchingCharacter('1', row, col)) {
+			model.set(row, col, '\u0020');
+			return false;
+		}
+		
+		if (!stepsToScavenger.isEmpty()) {
+			Step step = stepsToScavenger.poll(); 			
+    		model.set(step.getX(), step.getY(), RED_GREEN_GHOST_ID);
+    		model.set(row, col, '\u0020');
+    		setActivePosition(step.getX(), step.getY());
+			return true;
+		}	
+		
+		boolean nearScavenger = dls.searchForScavenger(row, col, 10);
+		
+		if (nearScavenger) {
+			findPath(dls.getTargetPosition());
+		} else {
+			//Randomly pick a direction up, down, left or right
+			int temp_row = row, temp_col = col;
+			if (rand.nextBoolean()) {
+	    		temp_row += rand.nextBoolean() ? 1 : -1;
+	    	} else {
+	    		temp_col += rand.nextBoolean() ? 1 : -1;
+	    	}
+			
+			if (model.isValidMove(row, col, temp_row, temp_col, RED_GREEN_GHOST_ID)) {
+	    		model.set(temp_row, temp_col, RED_GREEN_GHOST_ID);
+	    		model.set(row, col, '\u0020');
+	    		setActivePosition(temp_row, temp_col);
+	    		return true;
+			} 
+		}
+		return true;
+	}
+	
+	public void setActivePosition(int r, int c) {
+		row = r;
+		col = c;
+	}
+	
+	private void findPath(int[] target) {
+		Path path = pathFinder.findPath(row, col, target[0], target[1]);
+		
+		// TO DO 
+		// if retrieves steps - go through each of them until reach that position.
+		// maybe by setting up a local list, up execute -> check if list is empty 
+		// if not move to next position popped of 
+		
+		
+		if (path != null) {
+			stepsToScavenger = path.getPath(); 
+			
+			System.out.println("Target: " + target[0] + "," + target[1]);
+				
+			Step finalStep = (Step) stepsToScavenger.getLast();
+			System.out.println("last item on steps: " + finalStep.getX() + "," + finalStep.getY());
+			System.out.println("target pos: " + target[0] + "," + target[1]);
+		}
+	}
+	
+	private void findPlayerPos() {
+		char[][] map = model.getModel();
+		for (int i = 0; i < map.length; i++) {
+			for (int j = 0; j < map[i].length; j++) {
+				if (model.get(i, j) == '1') {
+					playerPosx = i;
+					playerPosy = j;
+				}
+			}
+		}
+	}
+}

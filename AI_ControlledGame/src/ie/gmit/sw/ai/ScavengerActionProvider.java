@@ -1,5 +1,7 @@
 package ie.gmit.sw.ai;
 
+import ie.gmit.sw.ai.nn.NeuralNetwork;
+
 public class ScavengerActionProvider {
 
 	private ScavengerAction scavenge;

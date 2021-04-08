@@ -1,5 +1,6 @@
 package ie.gmit.sw.ai;
 
+import ie.gmit.sw.ai.nn.NeuralNetwork;
 import javafx.application.Application;
 
 public class Runner {
