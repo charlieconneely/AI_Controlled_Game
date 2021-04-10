@@ -1,10 +1,12 @@
 package ie.gmit.sw.ai;
 
+import java.io.IOException;
+
 import ie.gmit.sw.ai.nn.NeuralNetwork;
 import javafx.application.Application;
 
 public class Runner {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		/*
 		 * PLEASE READ CAREFULLY
 		 * ---------------------
