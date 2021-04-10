@@ -28,7 +28,7 @@ public class GameModel {
 	private static final char ORANGE_GHOST_ID = '\u0036'; 
 	private ThreadLocalRandom rand = ThreadLocalRandom.current();
 	private char[][] model;
-	private int ghostCount = 0;
+	private ProgressManager pm = ProgressManager.getInstance();
 
 	private final ExecutorService exec = Executors.newFixedThreadPool(MAX_CHARACTERS, e -> {
 		Thread t = new Thread(e);
@@ -101,7 +101,7 @@ public class GameModel {
 				case BLUE_GHOST_ID:
 				case ORANGE_GHOST_ID:
 					tasks.add(new CharacterTask(this, new Scavenger(this, enemyID, row, col)));
-					ghostCount++;
+					pm.incrementGhostCount();
 					break;
 				case RED_GREEN_GHOST_ID:
 					tasks.add(new CharacterTask(this, new Hunter(this, row, col)));
@@ -148,14 +148,6 @@ public class GameModel {
 		return true;
 	}
 		
-	public void decrementGhostCount() {
-		if (ghostCount > 0) ghostCount--;
-	}
-		
-	public int getGhostCount() {
-		return ghostCount;
-	}
-
 	public char[][] getModel() {
 		return this.model;
 	}

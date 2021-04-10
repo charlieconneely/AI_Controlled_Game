@@ -1,0 +1,12 @@
+module gmit.software {
+		
+	requires javafx.base;
+	requires javafx.graphics;
+	requires transitive javafx.controls;
+	requires encog.core;
+	requires jFuzzyLogic;
+	requires transitive java.xml;
+
+	exports ie.gmit.sw.ai;
+	exports ie.gmit.sw.ai.nn;
+}

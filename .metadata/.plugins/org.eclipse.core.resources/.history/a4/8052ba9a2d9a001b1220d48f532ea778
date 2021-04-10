@@ -1,0 +1,10 @@
+package ie.gmit.sw.ai;
+
+public class ProgressManager {
+	
+	private int hedgesEaten;
+	private int playerLife = 2;
+	
+	private ProgressManager() {}
+
+}

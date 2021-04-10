@@ -11,9 +11,9 @@ import ie.gmit.sw.ai.pathfinding.Step;
 public class Hunter implements Command {
 	
 	private static final char RED_GREEN_GHOST_ID = '\u0035';
-
+	private ProgressManager pm = ProgressManager.getInstance();
 	private GameModel model;
-	private DepthLimitedSearch dls;
+	private ProximityScanner proximityScanner;
 	private PathFinder pathFinder;
 	private int row, col;
 	private static ThreadLocalRandom rand = ThreadLocalRandom.current();
@@ -24,14 +24,13 @@ public class Hunter implements Command {
 		this.row = row;
 		this.col = col;
 		pathFinder = new PathFinder(model);
-		dls = new DepthLimitedSearch(model);
+		proximityScanner = new ProximityScanner(model);
 	}
 	
 	@Override
 	public boolean execute() {
 		if (model.isTouchingCharacter('1', row, col)) {
-			model.set(row, col, '\u0020');
-			return false;
+			pm.hunterHitPlayer();
 		}
 		
 		if (!stepsToScavenger.isEmpty()) {
@@ -42,10 +41,10 @@ public class Hunter implements Command {
 			return true;
 		}	
 		
-		boolean nearScavenger = dls.searchForScavenger(row, col, 10);
+		boolean nearScavenger = proximityScanner.searchForScavenger(row, col, 10);
 		
 		if (nearScavenger) {
-			findPath(dls.getTargetPosition());
+			findPath(proximityScanner.getTargetPosition());
 		} else {
 			//Randomly pick a direction up, down, left or right
 			int temp_row = row, temp_col = col;

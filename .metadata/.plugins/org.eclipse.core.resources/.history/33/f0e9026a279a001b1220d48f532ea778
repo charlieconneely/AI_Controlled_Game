@@ -1,0 +1,40 @@
+package ie.gmit.sw.ai.pathfinding;
+
+import java.util.Deque;
+import java.util.LinkedList;
+
+public class Path {
+	private Deque<Step> path = new LinkedList<Step>();
+	
+	public Deque<Step> getPath() {
+		return path;
+	}
+	
+	public int getLength() {
+		return 0;
+	}
+	
+	public int[] getStep(int index) {
+		return null;
+	}
+	
+	public int getX(int index) {
+		return 0;
+	}
+
+	public int getY(int index) {
+		return 0;
+	}
+	
+	public void appendStep(int r, int c) {
+		
+	}
+	
+	public void prependStep(int r, int c) {
+		path.addFirst(new Step(r, c));
+	}
+	
+	public boolean contains(int r, int c) {
+		return false;
+	}
+}

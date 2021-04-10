@@ -1,0 +1,13 @@
+module gmit.software {
+	
+	requires transitive java.xml;
+	requires transitive org.w3c.dom.events;
+	
+	requires javafx.base;
+	requires javafx.graphics;
+	requires transitive javafx.controls;
+	requires encog.core;
+	requires jFuzzyLogic;
+	
+	exports ie.gmit.sw.ai;
+}

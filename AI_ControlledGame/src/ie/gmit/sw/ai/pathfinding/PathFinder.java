@@ -1,7 +1,9 @@
 package ie.gmit.sw.ai.pathfinding;
 
 import java.util.ArrayList;
+
 import ie.gmit.sw.ai.GameModel;
+
 import  java.lang.Math;
 
 public class PathFinder {

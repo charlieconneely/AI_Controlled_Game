@@ -1,0 +1,48 @@
+package ie.gmit.sw.ai;
+
+public class ProgressManager {
+	
+	private int hedgesEaten = 0;
+	private int strikesFromHunter = 0;
+	private int ghostCount = 0;
+	
+	private static ProgressManager pm = new ProgressManager();
+	
+	private ProgressManager() {}
+	
+	public void incrementHedgesEaten() {
+		hedgesEaten++;
+	}
+	
+	public void hunterHitPlayer() {
+		playerLives -= 1;
+		if (playerLives <= 0) {
+			System.out.println("Game Over!!!");
+			System.exit(0);
+		}
+	}
+	
+	public void decrementGhostCount() {
+		ghostCount--;
+		if (ghostCount <= 0) {
+			System.out.println("All ghosts killed!");
+			System.exit(0);
+		}
+	}
+	
+	public void incrementGhostCount() {
+		ghostCount++;
+	}
+	
+	public int getHedgesEaten() {
+		return hedgesEaten;
+	}
+	
+	public int getGhostCount() {
+		return ghostCount;
+	}
+	
+	public static ProgressManager getInstance() {
+		return pm;
+	}
+}

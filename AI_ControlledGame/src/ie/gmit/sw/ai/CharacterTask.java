@@ -49,15 +49,12 @@ public class CharacterTask extends Task<Void> {
 
 	@Override
 	public Void call() throws Exception {
-
 		while (alive) {
 			Thread.sleep(SLEEP_TIME);
-
 			synchronized (model) {
 				alive = cmd.execute();
 			}
 		}
-
 		return null;
 	}
 }

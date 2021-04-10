@@ -6,9 +6,10 @@ public class Scavenger implements Command {
 
 	private GameModel model;
 	private ScavengerActionProvider actionProvider;
+	private ProgressManager pm = ProgressManager.getInstance();
 	private char enemyID;
 	private int row, col;
-	private DepthLimitedSearch dls;
+	private ProximityScanner proximityScanner;
 	private static ThreadLocalRandom rand = ThreadLocalRandom.current();
 	private double strength;
 	
@@ -17,7 +18,7 @@ public class Scavenger implements Command {
 		this.enemyID = enemyID;
 		this.row = row;
 		this.col = col;
-		dls = new DepthLimitedSearch(model);
+		proximityScanner = new ProximityScanner(model);
 		actionProvider = new ScavengerActionProvider(model, enemyID, this);
 	}
 
@@ -25,12 +26,13 @@ public class Scavenger implements Command {
 	public boolean execute() {					
 		// if touching player or hunter - die
 		if (model.isTouchingCharacter('1', row, col) || model.isTouchingCharacter('5', row, col)) {
-			model.decrementGhostCount();
+			if (model.isTouchingCharacter('5', row, col)) pm.ghostsEatenByHunter(); 
+			pm.decrementGhostCount();
 			model.set(row, col, '\u0020');
 			return false;
 		}
 		
-		int nearCharacter = dls.searchForHunter(row, col, 5);
+		int nearCharacter = proximityScanner.searchForHunter(row, col, 5);
 			
 		//Randomly pick a direction up, down, left or right
 		int temp_row = row, temp_col = col;
@@ -47,7 +49,7 @@ public class Scavenger implements Command {
     		return true;
 		} 
 							
-		ScavengerAction action = actionProvider.getAction(nearCharacter, strength, model.getGhostCount());
+		ScavengerAction action = actionProvider.getAction(nearCharacter, strength, pm.getGhostCount());
 		double strengthGain = action.act(row, col, temp_row, temp_col);
 		addStrength(strengthGain);
 		return true;

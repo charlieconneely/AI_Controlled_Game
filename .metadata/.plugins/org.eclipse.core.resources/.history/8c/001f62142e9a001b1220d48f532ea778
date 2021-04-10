@@ -1,0 +1,27 @@
+package ie.gmit.sw.ai;
+
+public class ProgressManager {
+	
+	private int hedgesEaten = 0;
+	private int playerLife = 2;
+	
+	private static ProgressManager pm = new ProgressManager();
+	
+	private ProgressManager() {}
+	
+	public void incrementHedgesEaten() {
+		hedgesEaten++;
+	}
+	
+	public void hunterHitPlayer() {
+		playerLife -= 1;
+	}
+	
+	public int getHedgesEaten() {
+		return hedgesEaten;
+	}
+	
+	public ProgressManager getInstance() {
+		return pm;
+	}
+}
