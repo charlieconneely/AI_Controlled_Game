@@ -2,6 +2,7 @@ package ie.gmit.sw.ai;
 
 import java.io.IOException;
 
+import ie.gmit.sw.ai.fuzzy.ScoreCalculator;
 import ie.gmit.sw.ai.nn.NeuralNetwork;
 import javafx.application.Application;
 
@@ -22,9 +23,11 @@ public class Runner {
 		 * CLASSPATH). 
 		 */
 		
-		// train neural network
+		// prepare neural network + fuzzy logic 
 		NeuralNetwork nn = NeuralNetwork.getInstance();
+		ScoreCalculator sc = ScoreCalculator.getInstance();
 		nn.trainNeuralNetwork();
+		sc.loadFuzzyLogic();
 				
 		/*
 		 * Launch the JavaFX UI only when all the long-running AI 

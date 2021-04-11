@@ -34,7 +34,9 @@ public class Hunter implements Command {
 		}
 		
 		if (!stepsToScavenger.isEmpty()) {
-			Step step = stepsToScavenger.poll(); 			
+			Step step = stepsToScavenger.poll(); 		
+			// if about to run over player - game over 
+			if (model.get(step.getX(), step.getY()) == '1') pm.gameOver();
     		model.set(step.getX(), step.getY(), RED_GREEN_GHOST_ID);
     		model.set(row, col, '\u0020');
     		setActivePosition(step.getX(), step.getY());
@@ -74,7 +76,6 @@ public class Hunter implements Command {
 				
 		if (path != null) {
 			stepsToScavenger = path.getPath(); 			
-			System.out.println("Target: " + target[0] + "," + target[1]);
 		}
 	}
 }

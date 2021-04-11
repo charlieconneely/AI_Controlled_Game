@@ -1,0 +1,25 @@
+FUNCTION_BLOCK getFinalScore
+
+	VAR_INPUT
+		hedges : REAL;
+		strikes : REAL;
+		ghostsEatenByHunter : REAL;
+	END_VAR
+	
+	VAR_OUTPUT
+		score : REAL;
+	END_VAR
+	
+	FUZZIFY hedges
+		
+	END_FUZZIFY
+	
+	FUZZIFY strikes
+		
+	END_FUZZIFY
+	
+	FUZZIFY ghostsEatenByHunter
+		
+	END_FUZZIFY
+
+END_FUNCTION_BLOCK

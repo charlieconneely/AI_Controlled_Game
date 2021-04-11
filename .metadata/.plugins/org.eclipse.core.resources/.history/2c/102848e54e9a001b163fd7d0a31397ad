@@ -1,0 +1,9 @@
+FUNCTION_BLOCK getFinalScore
+
+	VAR_INPUT
+		hedges : REAL;
+		strikes : REAL;
+		ghostsEatenByHunter : REAL;
+	END_VAR
+
+END_FUNCTION_BLOCK

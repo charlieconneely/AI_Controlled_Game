@@ -1,0 +1,31 @@
+package ie.gmit.sw.ai.fuzzy;
+
+import net.sourceforge.jFuzzyLogic.FIS;
+import net.sourceforge.jFuzzyLogic.FunctionBlock;
+import net.sourceforge.jFuzzyLogic.plot.JFuzzyChart;
+import net.sourceforge.jFuzzyLogic.rule.Variable;
+
+public class ScoreCalculator {
+	private static final String FILE = "./resources/fuzzy/scorer.fcl";
+	
+	public static void main(String[] args) {
+		ScoreCalculator sc = new ScoreCalculator();
+		double score = sc.getFinalScore(10, 7, 6);
+		System.out.println("Score: " + score);
+	}
+	
+	public double getFinalScore(int hedgesEaten, int strikesFromHunter, int ghostsEatenByHunter) {
+		FIS fis = FIS.load(FILE, true);
+		FunctionBlock fb = fis.getFunctionBlock("getFinalScore");
+		
+		fis.setVariable("hedgesEaten", hedgesEaten);
+		fis.setVariable("strikesTaken", strikesFromHunter);
+		fis.setVariable("ghostsEatenByHunter", ghostsEatenByHunter);
+		fis.evaluate();
+	    Variable score = fb.getVariable("score");
+		JFuzzyChart.get().chart(fis);
+		JFuzzyChart.get().chart(score.getDefuzzifier(), "Score", true);
+		
+		return score.getValue();
+	}
+}

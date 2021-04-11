@@ -1,0 +1,18 @@
+package ie.gmit.sw.ai.fuzzy;
+
+//import net.sourceforge.jFuzzyLogic.FIS;
+
+public class ScoreCalculator {
+	private static final String FILE = "./resources/fuzzy/scorer.fcl";
+	
+//	public static void main(String[] args) {
+//		ScoreCalculator sc = new ScoreCalculator();
+//		double score = sc.getFinalScore();
+//		System.out.println("Score: " + score);
+//	}
+	
+	public double getFinalScore() {
+		FIS fis = FIS.load(FILE, true);
+		return 0;
+	}
+}

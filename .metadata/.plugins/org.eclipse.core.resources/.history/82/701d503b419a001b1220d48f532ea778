@@ -1,0 +1,15 @@
+package ie.gmit.sw.ai.fuzzy;
+
+public class ScoreCalculator {
+	private static final String FILE = "./resources/fuzzy/scorer.fcl";
+	
+	public static void main(String[] args) {
+		ScoreCalculator sc = new ScoreCalculator();
+		double score = sc.getFinalScore();
+		System.out.println("Score: " + score);
+	}
+	
+	public double getFinalScore() {
+		return 0;
+	}
+}
